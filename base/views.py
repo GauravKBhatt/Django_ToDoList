@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from django.views import View
 from .models import Item
+from .forms import ItemForm
 
 
 class home(View):
@@ -19,7 +20,15 @@ class itemview(View):
 
 class create(View):
     def get(self,request,*args,**kwargs):
-        return render(request,'base/createupdate.html')
+        form=ItemForm()
+        context={'form':form}
+        return render(request,'base/createupdate.html',context)
+    def post(self,request,*args,**kwargs):
+        form = ItemForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('home')
+
 
 class update(View):
     def get(self,request,*args,**kwargs):
