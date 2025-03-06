@@ -1,15 +1,21 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404,redirect
 from django.views import View
+from .models import Item
 
 
 class home(View):
     def get(self,request,*args,**kwargs):
-        return render(request,'base/home.html')
+        items = Item.objects.all()
+        expired = Item.objects.values('is_expired')
+        completed = Item.objects.values('is_completed')
+        context={'items':items,'expired':expired,'completed':completed}
+        return render(request,'base/home.html',context)
 
-class item(View):
+class itemview(View):
     def get(self,request,*args,**kwargs):
-        return render(request,'base/item.html')
+        pk = kwargs.get('pk')
+        item_instance = get_object_or_404(Item,pk=pk)
+        return render(request,'base/item.html',{'item':item_instance})
 
 class create(View):
     def get(self,request,*args,**kwargs):
@@ -21,5 +27,12 @@ class update(View):
 
 class delete(View):
     def get(self,request,*args,**kwargs):
-        return render(request,'base/delete.html')
+        pk = kwargs.get('pk')
+        item = Item.objects.get(id=pk)
+        return render(request,'base/delete.html',{'obj':item})
+    def post(self,request,*args,**kwargs):
+        pk = kwargs.get('pk')
+        item = Item.objects.get(id=pk)
+        item.delete()
+        return redirect('home')
 

@@ -1,2 +1,12 @@
 <a href="{% url 'home' %}">Home</a>
 <h1>This is the page to understand the description of items</h1>
+<div>
+    <p>Name: {{item.name}}</p>
+    <p>Description: {{item.description}}</p>
+    <p>Created: {{item.created}}</p>
+    <p>Updated: {{item.updated}}</p>
+    <p>Ending: {{item.ending}}</p>
+    <p>Is_Expired: {{item.is_expired}}</p>
+    <p>Is_Compiled: {{item.is_completed}}</p>
+</div>
+<a href="{% url 'delete' item.id%}">Delete this task.</a>

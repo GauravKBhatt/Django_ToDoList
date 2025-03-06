@@ -1,4 +1,15 @@
 <h1>This is the home page......</h1>
+<a href="{% url 'create' %}">Create a new item.</a>
 <div>
-    <a href="{%url 'create'%}">Create a new item.</a>
+    {% for item in items %}
+        {% if item.is_expired %}
+            <p>Expired <a href="{% url 'item' item.id %}">{{ item.name }}</a></p>
+        {% else %}
+            {% if item.is_complete %}
+                <p>Completed <a href="{% url 'item' item.id %}">{{ item.name }}</a></p>
+            {% else %}
+                <p>Incomplete <a href="{% url 'item' item.id %}">{{ item.name }}</a></p>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
 </div>
