@@ -3,12 +3,12 @@
 <div>
     {% for item in items %}
         {% if item.is_expired %}
-            <p>Expired <a href="{% url 'item' item.id %}">{{ item.name }}</a></p>
+            <p>Expired <a href="{% url 'item' item.id %}">{{ item.name }}</a> <br> Time Left:{{item.ending|timesince}}</p>
         {% else %}
             {% if item.is_complete %}
-                <p>Completed <a href="{% url 'item' item.id %}">{{ item.name }}</a></p>
+                <p>Completed <a href="{% url 'item' item.id %}">{{ item.name }}</a> <br> Time Left:{{item.ending|timesince}}</p>
             {% else %}
-                <p>Incomplete <a href="{% url 'item' item.id %}">{{ item.name }}</a></p>
+                <p>Incomplete <a href="{% url 'item' item.id %}">{{ item.name }}</a> <br> Time Left:{{item.ending|timesince}}</p>
             {% endif %}
         {% endif %}
     {% endfor %}
