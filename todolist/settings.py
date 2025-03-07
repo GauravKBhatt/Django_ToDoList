@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # to induct the base app, before we had to write base.app.config but now we can only write base and the upgraded djangio will undestand.
-    'base'
+    'base',
+    'rest_framework',
     
 ]
 

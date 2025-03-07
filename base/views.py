@@ -17,31 +17,27 @@ class home(View):
         return render(request, 'base/home.html', context)
 
     def post(self, request, *args, **kwargs):
-        # Default datetime strings
+        
         default_start_datetime_str = '1900-01-01T10:00'
         default_end_datetime_str = '2100-01-02T10:00'
-        name = request.POST.get('name', '').strip()
         
-        # Parse the start and end datetime values from the POST request, or use defaults
+        name = request.POST.get('name', '').strip()
         start_str = request.POST.get('start')
         end_str = request.POST.get('end')
         
-        # Ensure start and end are datetime objects (parse if not empty or use default datetime)
         start = parse_datetime(start_str) if start_str else parse_datetime(default_start_datetime_str)
         end = parse_datetime(end_str) if end_str else parse_datetime(default_end_datetime_str)
 
-            # Make datetime objects timezone-aware (if they are naive)
+            
         if start and timezone.is_naive(start):
             start = timezone.make_aware(start)
-        
         if end and timezone.is_naive(end):
             end = timezone.make_aware(end)
             
-        # Proceed with filtering the items using the parsed datetime values
         items = Item.objects.filter(
             Q(name__icontains=name) & Q(created__gte=start) & Q(ending__lte=end)
         )
-        # Re-fetch get method data
+        
         expired = Item.objects.filter(is_expired=True)
         completed = Item.objects.filter(Q(is_expired=False) & Q(is_completed=True))
         incomplete = Item.objects.filter(Q(is_expired=False) & Q(is_completed=False))
