@@ -7,6 +7,11 @@
     <p>Updated: {{item.updated}}</p>
     <p>Ending: {{item.ending}}</p>
     <p>Is_Expired: {{item.is_expired}}</p>
-    <p>Is_Compiled: {{item.is_completed}}</p>
+    <p>is_Completed: {{item.is_completed}}</p>
 </div>
+<form method="POST" action="">
+    {% csrf_token%}
+    <p>Are you sure you have completed this task ?</p>
+    <input type="submit" value="Confirm"/>
+</form>
 <a href="{% url 'delete' item.id%}">Delete this task.</a>

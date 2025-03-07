@@ -1,15 +1,48 @@
 <h1>This is the home page......</h1>
 <a href="{% url 'create' %}">Create a new item.</a>
-<div>
-    {% for item in items %}
-        {% if item.is_expired %}
-            <p>Expired <a href="{% url 'item' item.id %}">{{ item.name }}</a> <br> Time Left:{{item.ending|timesince}}</p>
-        {% else %}
-            {% if item.is_complete %}
-                <p>Completed <a href="{% url 'item' item.id %}">{{ item.name }}</a> <br> Time Left:{{item.ending|timesince}}</p>
-            {% else %}
-                <p>Incomplete <a href="{% url 'item' item.id %}">{{ item.name }}</a> <br> Time Left:{{item.ending|timesince}}</p>
-            {% endif %}
-        {% endif %}
-    {% endfor %}
+<style>
+    .container{
+        display:grid;
+        grid-template-columns: 2fr 1fr;
+    }
+</style>
+
+<div class="container">
+    
+    <div>
+    <div>
+        <h3>Incomplete Items:</h3>
+        {% for item in incomplete %}
+            <p><a href="{% url 'item' item.id %}">{{ item.name }}</a> <br> Time Left : {{item.ending|timeuntil}}</p>
+        {% endfor %}
+    </div>
+    <div>
+        <h3>Completed Items</h3>
+        {% for item in completed %}
+            <p><a href="{% url 'item' item.id %}">{{ item.name }}</a> <br> Time Left :{{item.ending|timeuntil}}</p>
+        {% endfor %}
+    </div>
+    <div>
+        <h3>Expired Items</h3>
+        {% for item in expired %}
+            <p><a href="{% url 'item' item.id %}">{{ item.name }}</a> <br> Time Left :{{item.ending|timesince}}</p>
+        {% endfor %}
+    </div>
+    <div>
+        
+    </div>
 </div>
+<div>
+    <h3>Search Bar</h3>
+    <form method="POST" action="">
+    {% csrf_token%}
+    <input type="text" id="name" name="name" placeholder="Search for Tasks" required>
+    <input type="submit" value="Confirm"/>
+    </form>
+    <h3>Search Results</h3>
+        {% for item in items %}
+            <p><a href="{% url 'item' item.id %}">{{ item.name }}</a></p>
+        {% endfor %}
+    </div>
+</div>
+
