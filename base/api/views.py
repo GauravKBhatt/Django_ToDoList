@@ -19,3 +19,10 @@ class GetItems(APIView):
         items=Item.objects.all()
         serializer = ItemSerializer(items,many=True)
         return Response(serializer.data)
+    
+class GetItem(APIView):
+    def get(self,request,*args,**kwargs):
+        pk = kwargs.get('pk')
+        item=Item.objects.get(id=pk)
+        serializer = ItemSerializer(item)
+        return Response(serializer.data)
